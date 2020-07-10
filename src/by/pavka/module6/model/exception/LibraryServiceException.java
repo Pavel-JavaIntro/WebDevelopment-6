@@ -1,0 +1,18 @@
+package by.pavka.module6.model.exception;
+
+public class LibraryServiceException extends Exception {
+  public LibraryServiceException() {
+  }
+
+  public LibraryServiceException(String message) {
+    super(message);
+  }
+
+  public LibraryServiceException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
+  public LibraryServiceException(Throwable cause) {
+    super(cause);
+  }
+}
