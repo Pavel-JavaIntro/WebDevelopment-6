@@ -1,7 +1,6 @@
 package by.pavka.module6.model.dao;
 
 import by.pavka.module6.model.entity.book.Book;
-import by.pavka.module6.model.entity.tag.SearchTag;
 import by.pavka.module6.model.exception.LibraryCrudException;
 
 import java.util.List;
@@ -15,7 +14,25 @@ public interface BookListDao {
 
   boolean excludeBook(Book book);
 
-  List<Book> findBookByTag(SearchTag searchTag);
+  List<Book> listAllBooks();
 
-  List<Book> sortBooksByTag(SearchTag searchTag);
+  List<Book> sortBooksByTitle();
+
+  List<Book> sortBooksByAuthors();
+
+  List<Book> sortBooksByPublisher();
+
+  List<Book> sortBooksByYear();
+
+  List<Book> sortBooksByNumberOfPages();
+
+  List<Book> findBooksByTitle(String title);
+
+  List<Book> findBooksByAuthors(String[] authors);
+
+  List<Book> findBooksByPublisher(String publisher);
+
+  List<Book> findBooksByYear(int year);
+
+  List<Book> findBooksByNumberOfPages(int pages);
 }

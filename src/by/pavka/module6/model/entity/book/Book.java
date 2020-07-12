@@ -1,5 +1,7 @@
 package by.pavka.module6.model.entity.book;
 
+import by.pavka.module6.model.exception.BookNullTitleException;
+
 import java.util.Arrays;
 
 public class Book {
@@ -10,10 +12,22 @@ public class Book {
   private final int numberOfPages;
 
   public Book(
-      String title, String[] authors, String publisher, int yearOfPublication, int numberOfPages) {
+      String title, String[] authors, String publisher, int yearOfPublication, int numberOfPages)
+      throws BookNullTitleException {
+    if (title == null) {
+      throw new BookNullTitleException("Book must have a title");
+    }
     this.title = title;
-    this.authors = authors;
-    this.publisher = publisher;
+    if (authors != null) {
+      this.authors = authors;
+    } else {
+      this.authors = new String[] {""};
+    }
+    if (publisher != null) {
+      this.publisher = publisher;
+    } else {
+      this.publisher = "";
+    }
     this.yearOfPublication = yearOfPublication;
     this.numberOfPages = numberOfPages;
   }
@@ -47,8 +61,7 @@ public class Book {
         && numberOfPages == book.numberOfPages
         && title.equals(book.title)
         && Arrays.equals(authors, book.authors)
-        && (publisher != null && publisher.equals(book.publisher)
-            || publisher == null && book.publisher == null);
+        && publisher.equals(book.publisher);
   }
 
   @Override

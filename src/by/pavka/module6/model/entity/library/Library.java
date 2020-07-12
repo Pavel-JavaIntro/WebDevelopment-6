@@ -6,7 +6,10 @@ import java.util.List;
 
 public interface Library {
   boolean insert(Book book);
+
   boolean delete(Book book);
+
   boolean contains(Book book);
+
   List<Book> listAll();
 }

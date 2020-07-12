@@ -2,16 +2,13 @@ package by.pavka.module6.model.dao.impl;
 
 import by.pavka.module6.model.dao.BookListDao;
 import by.pavka.module6.model.entity.book.Book;
-import by.pavka.module6.model.entity.tag.SearchTag;
-import by.pavka.module6.model.exception.LibraryCrudException;
 import by.pavka.module6.model.entity.library.Library;
 import by.pavka.module6.model.entity.library.impl.LibraryImpl;
+import by.pavka.module6.model.exception.LibraryCrudException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static by.pavka.module6.model.entity.tag.SearchTag.*;
 
 public class BookListDaoImpl implements BookListDao {
 
@@ -46,80 +43,115 @@ public class BookListDaoImpl implements BookListDao {
   }
 
   @Override
-  public List<Book> findBookByTag(SearchTag searchTag) {
+  public List<Book> listAllBooks() {
+    Library library = LibraryImpl.getInstance();
+    return library.listAll();
+  }
+
+  @Override
+  public List<Book> sortBooksByTitle() {
+    Library bookStorage = LibraryImpl.getInstance();
+    List<Book> library = new ArrayList<>(bookStorage.listAll());
+    library.sort((book1, book2) -> book1.getTitle().compareTo(book2.getTitle()));
+    return library;
+  }
+
+  @Override
+  public List<Book> sortBooksByAuthors() {
+    Library bookStorage = LibraryImpl.getInstance();
+    List<Book> library = new ArrayList<>(bookStorage.listAll());
+    library.sort(
+        (book1, book2) ->
+            (String.join(" ", book1.getAuthors())).compareTo(String.join(" ", book2.getAuthors())));
+    return library;
+  }
+
+  @Override
+  public List<Book> sortBooksByPublisher() {
+    Library bookStorage = LibraryImpl.getInstance();
+    List<Book> library = new ArrayList<>(bookStorage.listAll());
+    library.sort((book1, book2) -> book1.getPublisher().compareTo(book2.getPublisher()));
+    return library;
+  }
+
+  @Override
+  public List<Book> sortBooksByYear() {
+    Library bookStorage = LibraryImpl.getInstance();
+    List<Book> library = new ArrayList<>(bookStorage.listAll());
+    library.sort((book1, book2) -> (book1.getYearOfPublication() - book2.getYearOfPublication()));
+    return library;
+  }
+
+  @Override
+  public List<Book> sortBooksByNumberOfPages() {
+    Library bookStorage = LibraryImpl.getInstance();
+    List<Book> library = new ArrayList<>(bookStorage.listAll());
+    library.sort((book1, book2) -> (book1.getNumberOfPages() - book2.getNumberOfPages()));
+    return library;
+  }
+
+  @Override
+  public List<Book> findBooksByTitle(String title) {
     List<Book> books = new ArrayList<>();
     Library bookStorage = LibraryImpl.getInstance();
     List<Book> allBooks = bookStorage.listAll();
-    if (searchTag != null) {
-      String tag = searchTag.displayTag();
-      for (Book book : allBooks) {
-        switch (tag) {
-          case TITLE:
-            if (book.getTitle().equals(searchTag.getSearchValue())) {
-              books.add(book);
-            }
-            break;
-          case AUTHORS:
-            if (Arrays.equals((book.getAuthors()), (String[]) searchTag.getSearchValue())) {
-              books.add(book);
-            }
-            break;
-          case PUBLISHER:
-            String bookPublisher = book.getPublisher();
-            String searchPublisher = (String) searchTag.getSearchValue();
-            if (bookPublisher != null && bookPublisher.equals(searchPublisher)
-                || bookPublisher == null && searchPublisher == null) {
-              books.add(book);
-            }
-            break;
-          case YEAR:
-            if (book.getYearOfPublication() == (int) searchTag.getSearchValue()) {
-              books.add(book);
-            }
-            break;
-          case PAGES:
-            if (book.getNumberOfPages() == (int) searchTag.getSearchValue()) {
-              books.add(book);
-            }
-            break;
-          default:
-            break;
-        }
+    for (Book book : allBooks) {
+      if (book.getTitle().equals(title)) {
+        books.add(book);
       }
     }
     return books;
   }
 
   @Override
-  public List<Book> sortBooksByTag(SearchTag searchTag) {
+  public List<Book> findBooksByAuthors(String[] authors) {
+    List<Book> books = new ArrayList<>();
     Library bookStorage = LibraryImpl.getInstance();
-    List<Book> library = new ArrayList<>(bookStorage.listAll());
-    if (searchTag != null) {
-      String tag = searchTag.displayTag();
-      switch (tag) {
-        case PAGES:
-          library.sort((book1, book2) -> (book1.getNumberOfPages() - book2.getNumberOfPages()));
-          break;
-        case TITLE:
-          library.sort((book1, book2) -> book1.getTitle().compareTo(book2.getTitle()));
-          break;
-        case AUTHORS:
-          library.sort(
-              (book1, book2) ->
-                  (String.join(" ", book1.getAuthors()))
-                      .compareTo(String.join(" ", book2.getAuthors())));
-          break;
-        case PUBLISHER:
-          library.sort((book1, book2) -> book1.getPublisher().compareTo(book2.getPublisher()));
-          break;
-        case YEAR:
-          library.sort(
-              (book1, book2) -> (book1.getYearOfPublication() - book2.getYearOfPublication()));
-          break;
-        default:
-          break;
+    List<Book> allBooks = bookStorage.listAll();
+    for (Book book : allBooks) {
+      if (Arrays.equals(book.getAuthors(), authors)) {
+        books.add(book);
       }
     }
-    return library;
+    return books;
+  }
+
+  @Override
+  public List<Book> findBooksByPublisher(String publisher) {
+    List<Book> books = new ArrayList<>();
+    Library bookStorage = LibraryImpl.getInstance();
+    List<Book> allBooks = bookStorage.listAll();
+    for (Book book : allBooks) {
+      if (book.getPublisher().equals(publisher)) {
+        books.add(book);
+      }
+    }
+    return books;
+  }
+
+  @Override
+  public List<Book> findBooksByYear(int year) {
+    List<Book> books = new ArrayList<>();
+    Library bookStorage = LibraryImpl.getInstance();
+    List<Book> allBooks = bookStorage.listAll();
+    for (Book book : allBooks) {
+      if (book.getYearOfPublication() == year) {
+        books.add(book);
+      }
+    }
+    return books;
+  }
+
+  @Override
+  public List<Book> findBooksByNumberOfPages(int pages) {
+    List<Book> books = new ArrayList<>();
+    Library bookStorage = LibraryImpl.getInstance();
+    List<Book> allBooks = bookStorage.listAll();
+    for (Book book : allBooks) {
+      if (book.getNumberOfPages() == pages) {
+        books.add(book);
+      }
+    }
+    return books;
   }
 }

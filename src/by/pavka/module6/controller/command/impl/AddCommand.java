@@ -5,10 +5,10 @@ import by.pavka.module6.controller.exception.LibraryControllerException;
 import by.pavka.module6.model.exception.LibraryServiceException;
 import by.pavka.module6.model.service.BookService;
 
+import java.util.List;
 import java.util.Map;
 
 public class AddCommand implements LibraryCommand {
-  private static final String AUTHOR_DELIMITER = ",";
   private String[] bookData;
 
   public AddCommand(String[] bookData) throws LibraryControllerException {
@@ -19,7 +19,7 @@ public class AddCommand implements LibraryCommand {
   }
 
   @Override
-  public Map<String, String> execute() throws LibraryControllerException {
+  public Map<String, List<String>> execute() throws LibraryControllerException {
     String title = bookData[0];
     String[] authors = bookData[1].split(AUTHOR_DELIMITER);
     String publisher = bookData[2];
@@ -29,7 +29,7 @@ public class AddCommand implements LibraryCommand {
     try {
       bookService.addBook(title, authors, publisher, yearString, pageString);
     } catch (LibraryServiceException e) {
-      throw new LibraryControllerException("Cuaght service exception", e);
+      throw new LibraryControllerException("Caught service exception", e);
     }
     return null;
   }
