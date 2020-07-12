@@ -4,16 +4,18 @@ import by.pavka.module6.controller.command.LibraryCommand;
 import by.pavka.module6.controller.command.impl.*;
 import by.pavka.module6.controller.exception.LibraryControllerException;
 import by.pavka.module6.controller.request.LibraryRequest;
+import by.pavka.module6.controller.response.LibraryResponse;
 import by.pavka.module6.controller.type.BookTagType;
 import by.pavka.module6.controller.type.LibraryCommandType;
 
 public class LibraryCommandFactory {
   private static final String FIELD_DELIMITER = ":";
 
-  public LibraryCommand formLibraryCommand(LibraryRequest request)
+  public LibraryCommand formLibraryCommand(LibraryRequest request, LibraryResponse response)
       throws LibraryControllerException {
     LibraryCommand libraryCommand = null;
     LibraryCommandType commandType = request.getCommandType();
+    response.setOperation(commandType.toString());
     BookTagType tagType = null;
     String[] bookData = null;
     switch (commandType) {

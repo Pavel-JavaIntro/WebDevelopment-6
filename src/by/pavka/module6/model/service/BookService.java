@@ -8,11 +8,12 @@ import by.pavka.module6.model.exception.LibraryCrudException;
 import by.pavka.module6.model.exception.LibraryServiceException;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class BookService {
-  public void addBook(
+  public List<Book> addBook(
       String title, String[] authors, String publisher, String yearString, String pageString)
       throws LibraryServiceException {
     Book book = obtainBook(title, authors, publisher, yearString, pageString);
@@ -22,17 +23,24 @@ public class BookService {
     } catch (LibraryCrudException e) {
       throw new LibraryServiceException("Caught CRUD exception while adding book", e);
     }
+    List<Book> books = new ArrayList<>();
+    books.add(book);
+    return books;
   }
 
-  public void includeBook(
+  public List<Book> includeBook(
       String title, String[] authors, String publisher, String yearString, String pageString)
       throws LibraryServiceException {
     Book book = obtainBook(title, authors, publisher, yearString, pageString);
     BookListDao bookListDao = new BookListDaoImpl();
-    bookListDao.includeBook(book);
+    List<Book> books = new ArrayList<>();
+    if (bookListDao.includeBook(book)) {
+      books.add(book);
+    }
+    return books;
   }
 
-  public void removeBook(
+  public List<Book> removeBook(
       String title, String[] authors, String publisher, String yearString, String pageString)
       throws LibraryServiceException {
     Book book = obtainBook(title, authors, publisher, yearString, pageString);
@@ -42,14 +50,21 @@ public class BookService {
     } catch (LibraryCrudException e) {
       throw new LibraryServiceException("Caught CRUD exception while removing book", e);
     }
+    List<Book> books = new ArrayList<>();
+    books.add(book);
+    return books;
   }
 
-  public void excludeBook(
+  public List<Book> excludeBook(
       String title, String[] authors, String publisher, String yearString, String pageString)
       throws LibraryServiceException {
     Book book = obtainBook(title, authors, publisher, yearString, pageString);
     BookListDao bookListDao = new BookListDaoImpl();
-    bookListDao.excludeBook(book);
+    List<Book> books = new ArrayList<>();
+    if (bookListDao.excludeBook(book)) {
+      books.add(book);
+    }
+    return books;
   }
 
   private Book obtainBook(
@@ -92,70 +107,59 @@ public class BookService {
     return numberOfPages;
   }
 
-  public Map<String, List<String>> listAllBooks() {
+  public List<Book> listAllBooks() {
     BookListDao bookListDao = new BookListDaoImpl();
-    bookListDao.listAllBooks();
-    return null;
+    return bookListDao.listAllBooks();
   }
 
-  public Map<String, List<String>> sortByTitle() {
+  public List<Book> sortByTitle() {
     BookListDao bookListDao = new BookListDaoImpl();
-    bookListDao.sortBooksByTitle();
-    return null;
+    return bookListDao.sortBooksByTitle();
   }
 
-  public Map<String, List<String>> sortByAuthors() {
+  public List<Book> sortByAuthors() {
     BookListDao bookListDao = new BookListDaoImpl();
-    bookListDao.sortBooksByAuthors();
-    return null;
+    return bookListDao.sortBooksByAuthors();
   }
 
-  public Map<String, List<String>> sortByPublisher() {
+  public List<Book> sortByPublisher() {
     BookListDao bookListDao = new BookListDaoImpl();
-    bookListDao.sortBooksByPublisher();
-    return null;
+    return bookListDao.sortBooksByPublisher();
   }
 
-  public Map<String, List<String>> sortByYear() {
+  public List<Book> sortByYear() {
     BookListDao bookListDao = new BookListDaoImpl();
-    bookListDao.sortBooksByYear();
-    return null;
+    return bookListDao.sortBooksByYear();
   }
 
-  public Map<String, List<String>> sortByNumberOfPages() {
+  public List<Book> sortByNumberOfPages() {
     BookListDao bookListDao = new BookListDaoImpl();
-    bookListDao.sortBooksByNumberOfPages();
-    return null;
+    return bookListDao.sortBooksByNumberOfPages();
   }
 
-  public Map<String, List<String>> findByTitle(String searchValue) {
+  public List<Book> findByTitle(String searchValue) {
     BookListDao bookListDao = new BookListDaoImpl();
-    bookListDao.findBooksByTitle(searchValue);
-    return null;
+    return bookListDao.findBooksByTitle(searchValue);
   }
 
-  public Map<String, List<String>> findByAuthors(String[] searchValue) {
+  public List<Book> findByAuthors(String[] searchValue) {
     BookListDao bookListDao = new BookListDaoImpl();
-    bookListDao.findBooksByAuthors(searchValue);
-    return null;
+    return bookListDao.findBooksByAuthors(searchValue);
   }
 
-  public Map<String, List<String>> findByPublisher(String searchValue) {
+  public List<Book> findByPublisher(String searchValue) {
     BookListDao bookListDao = new BookListDaoImpl();
-    bookListDao.findBooksByPublisher(searchValue);
-    return null;
+    return bookListDao.findBooksByPublisher(searchValue);
   }
 
-  public Map<String, List<String>> findByYear(String searchValue) throws LibraryServiceException {
+  public List<Book> findByYear(String searchValue) throws LibraryServiceException {
     BookListDao bookListDao = new BookListDaoImpl();
-    bookListDao.findBooksByYear(verifyYear(searchValue));
-    return null;
+    return bookListDao.findBooksByYear(verifyYear(searchValue));
   }
 
-  public Map<String, List<String>> findByNumberOfPages(String searchValue)
+  public List<Book> findByNumberOfPages(String searchValue)
       throws LibraryServiceException {
     BookListDao bookListDao = new BookListDaoImpl();
-    bookListDao.findBooksByNumberOfPages(verifyPages(searchValue));
-    return null;
+    return bookListDao.findBooksByNumberOfPages(verifyPages(searchValue));
   }
 }

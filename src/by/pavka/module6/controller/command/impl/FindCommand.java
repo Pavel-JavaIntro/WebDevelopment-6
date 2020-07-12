@@ -3,11 +3,11 @@ package by.pavka.module6.controller.command.impl;
 import by.pavka.module6.controller.command.LibraryCommand;
 import by.pavka.module6.controller.exception.LibraryControllerException;
 import by.pavka.module6.controller.type.BookTagType;
+import by.pavka.module6.model.entity.book.Book;
 import by.pavka.module6.model.exception.LibraryServiceException;
 import by.pavka.module6.model.service.BookService;
 
 import java.util.List;
-import java.util.Map;
 
 public class FindCommand implements LibraryCommand {
   private BookTagType tag;
@@ -19,7 +19,7 @@ public class FindCommand implements LibraryCommand {
   }
 
   @Override
-  public Map<String, List<String>> execute() throws LibraryControllerException {
+  public List<Book> execute() throws LibraryControllerException {
     BookService bookService = new BookService();
     switch (tag) {
       case TITLE:
