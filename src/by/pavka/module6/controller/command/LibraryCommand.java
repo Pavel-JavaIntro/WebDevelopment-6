@@ -6,7 +6,7 @@ import by.pavka.module6.model.entity.book.Book;
 import java.util.List;
 
 public interface LibraryCommand {
-  public static final String AUTHOR_DELIMITER = ",";
+  String AUTHOR_DELIMITER = ",";
 
   List<Book> execute() throws LibraryControllerException;
 }

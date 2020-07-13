@@ -10,8 +10,8 @@ import by.pavka.module6.model.service.BookService;
 import java.util.List;
 
 public class FindCommand implements LibraryCommand {
-  private BookTagType tag;
-  private String searchValue;
+  private final BookTagType tag;
+  private final String searchValue;
 
   public FindCommand(BookTagType tag, String searchValue) {
     this.tag = tag;

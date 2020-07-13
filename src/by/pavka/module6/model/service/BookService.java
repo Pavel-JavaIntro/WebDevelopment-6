@@ -10,7 +10,6 @@ import by.pavka.module6.model.exception.LibraryServiceException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class BookService {
   public List<Book> addBook(
@@ -157,8 +156,7 @@ public class BookService {
     return bookListDao.findBooksByYear(verifyYear(searchValue));
   }
 
-  public List<Book> findByNumberOfPages(String searchValue)
-      throws LibraryServiceException {
+  public List<Book> findByNumberOfPages(String searchValue) throws LibraryServiceException {
     BookListDao bookListDao = new BookListDaoImpl();
     return bookListDao.findBooksByNumberOfPages(verifyPages(searchValue));
   }

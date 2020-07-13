@@ -9,7 +9,7 @@ import by.pavka.module6.model.service.BookService;
 import java.util.List;
 
 public class SortCommand implements LibraryCommand {
-  private BookTagType tag;
+  private final BookTagType tag;
 
   public SortCommand(BookTagType tag) {
     this.tag = tag;

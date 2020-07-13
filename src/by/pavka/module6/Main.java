@@ -1,39 +1,51 @@
 package by.pavka.module6;
 
 import by.pavka.module6.controller.LibraryController;
-import by.pavka.module6.controller.exception.LibraryControllerException;
-import by.pavka.module6.model.entity.book.Book;
-import by.pavka.module6.model.entity.library.impl.LibraryImpl;
-import by.pavka.module6.model.exception.LibraryCrudException;
-
-import java.util.List;
+import by.pavka.module6.controller.response.LibraryResponse;
+import by.pavka.module6.generator.LibraryFiller;
+import by.pavka.module6.model.exception.BookNullTitleException;
 
 public class Main {
 
-  public static void main(String[] args) throws LibraryCrudException, LibraryControllerException {
-    //    BookListDao bookListDao = new BookListDaoImpl();
-    //    for (int i = 0; i < 3; i++) {
-    //      String title = "Title" + i;
-    //      String author = "Author" + i;
-    //      String[] authors = {author};
-    //      String publisher = "Independent Press";
-    //      int year = 1989 - i;
-    //      int pages = 100 * i;
-    //      Book book = new Book(title, authors, publisher, year, pages);
-    //      System.out.println(book);
-    //      bookListDao.addBook(book);
-    //    }
-    //
-    //    SearchTag searchTag = new TitleSearchTag();
-    //    SearchTag searchTag2 = new YearSearchTag(5);
-    //    System.out.println(bookListDao.findBookByTag(searchTag));
-    //    System.out.println(bookListDao.sortBooksByTag(searchTag2));
-    //    List<Book> books = bookListDao.sortBooksByTag(null);
-    //    System.out.println(books);
-    LibraryController libraryController = LibraryController.getInstance();
-    String request = "A#Three Friends:Remark, remarka:Nauka:1999:303";
-    libraryController.doRequest(request);
-    List<Book> books = LibraryImpl.getInstance().listAll();
-    System.out.println(books);
+  private static LibraryController libraryController = LibraryController.getInstance();
+
+  public static void main(String[] args) {
+
+    String request = "A#Незнайка на Луне:Н.Носов:Детская Литература:1965:180";
+    recieveAndDisplayResponse(request);
+
+    try {
+      LibraryFiller.fillLibrary();
+    } catch (BookNullTitleException e) {
+      e.printStackTrace();
+    }
+
+    request = "L";
+    recieveAndDisplayResponse(request);
+
+    request = "F#Y#1936";
+    recieveAndDisplayResponse(request);
+
+    request = "S#N";
+    recieveAndDisplayResponse(request);
+
+    request = "R#Незнайка в Солнечном Городе:Н.Носов:Детская Литература:1965:180";
+    recieveAndDisplayResponse(request);
+
+    request = "I#Незнайка на Луне:Н.Носов:Детская Литература:1965:180";
+    recieveAndDisplayResponse(request);
+
+    request = "R#Незнайка на Луне:Н.Носов:Детская Литература:1965:180";
+    recieveAndDisplayResponse(request);
+
+    request = "L";
+    recieveAndDisplayResponse(request);
+  }
+
+  private static void recieveAndDisplayResponse(String request) {
+    LibraryResponse response = libraryController.doRequest(request);
+    System.out.println(
+        response.getResult() + " " + response.getOperation() + " " + response.getExceptionInfo());
+    System.out.println(response.getBooks());
   }
 }
