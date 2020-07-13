@@ -1,163 +1,45 @@
 package by.pavka.module6.model.service;
 
-import by.pavka.module6.model.dao.BookListDao;
-import by.pavka.module6.model.dao.impl.BookListDaoImpl;
 import by.pavka.module6.model.entity.book.Book;
-import by.pavka.module6.model.exception.BookNullTitleException;
-import by.pavka.module6.model.exception.LibraryCrudException;
-import by.pavka.module6.model.exception.LibraryServiceException;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
-public class BookService {
-  public List<Book> addBook(
+public interface BookService {
+  List<Book> addBook(
       String title, String[] authors, String publisher, String yearString, String pageString)
-      throws LibraryServiceException {
-    Book book = obtainBook(title, authors, publisher, yearString, pageString);
-    BookListDao bookListDao = new BookListDaoImpl();
-    try {
-      bookListDao.addBook(book);
-    } catch (LibraryCrudException e) {
-      throw new LibraryServiceException("Caught CRUD exception while adding book", e);
-    }
-    List<Book> books = new ArrayList<>();
-    books.add(book);
-    return books;
-  }
+      throws BookServiceException;
 
-  public List<Book> includeBook(
+  List<Book> includeBook(
       String title, String[] authors, String publisher, String yearString, String pageString)
-      throws LibraryServiceException {
-    Book book = obtainBook(title, authors, publisher, yearString, pageString);
-    BookListDao bookListDao = new BookListDaoImpl();
-    List<Book> books = new ArrayList<>();
-    if (bookListDao.includeBook(book)) {
-      books.add(book);
-    }
-    return books;
-  }
+      throws BookServiceException;
 
-  public List<Book> removeBook(
+  List<Book> removeBook(
       String title, String[] authors, String publisher, String yearString, String pageString)
-      throws LibraryServiceException {
-    Book book = obtainBook(title, authors, publisher, yearString, pageString);
-    BookListDao bookListDao = new BookListDaoImpl();
-    try {
-      bookListDao.removeBook(book);
-    } catch (LibraryCrudException e) {
-      throw new LibraryServiceException("Caught CRUD exception while removing book", e);
-    }
-    List<Book> books = new ArrayList<>();
-    books.add(book);
-    return books;
-  }
+      throws BookServiceException;
 
-  public List<Book> excludeBook(
+  List<Book> excludeBook(
       String title, String[] authors, String publisher, String yearString, String pageString)
-      throws LibraryServiceException {
-    Book book = obtainBook(title, authors, publisher, yearString, pageString);
-    BookListDao bookListDao = new BookListDaoImpl();
-    List<Book> books = new ArrayList<>();
-    if (bookListDao.excludeBook(book)) {
-      books.add(book);
-    }
-    return books;
-  }
+      throws BookServiceException;
 
-  private Book obtainBook(
-      String title, String[] authors, String publisher, String yearString, String pageString)
-      throws LibraryServiceException {
-    int yearOfPublication = verifyYear(yearString);
-    int numberOfPages = verifyPages(pageString);
-    Book book = null;
-    try {
-      book = new Book(title, authors, publisher, yearOfPublication, numberOfPages);
-    } catch (BookNullTitleException e) {
-      throw new LibraryServiceException("Book without title", e);
-    }
-    return book;
-  }
+  List<Book> listAllBooks();
 
-  private int verifyYear(String yearString) throws LibraryServiceException {
-    int yearOfPublication;
-    try {
-      yearOfPublication = Integer.parseInt(yearString.trim());
-    } catch (NumberFormatException e) {
-      throw new LibraryServiceException("Wrong yearOfPublication format");
-    }
-    if (yearOfPublication > LocalDate.now().getYear()) {
-      throw new LibraryServiceException("Wrong yearOfPublication");
-    }
-    return yearOfPublication;
-  }
+  List<Book> sortByTitle();
 
-  private int verifyPages(String pageString) throws LibraryServiceException {
-    int numberOfPages;
-    try {
-      numberOfPages = Integer.parseInt(pageString.trim());
-    } catch (NumberFormatException e) {
-      throw new LibraryServiceException("Wrong numberOPages format");
-    }
-    if (numberOfPages < 1) {
-      throw new LibraryServiceException("Wrong numberOPages");
-    }
-    return numberOfPages;
-  }
+  List<Book> sortByAuthors();
 
-  public List<Book> listAllBooks() {
-    BookListDao bookListDao = new BookListDaoImpl();
-    return bookListDao.listAllBooks();
-  }
+  List<Book> sortByPublisher();
 
-  public List<Book> sortByTitle() {
-    BookListDao bookListDao = new BookListDaoImpl();
-    return bookListDao.sortBooksByTitle();
-  }
+  List<Book> sortByYear();
 
-  public List<Book> sortByAuthors() {
-    BookListDao bookListDao = new BookListDaoImpl();
-    return bookListDao.sortBooksByAuthors();
-  }
+  List<Book> sortByNumberOfPages();
 
-  public List<Book> sortByPublisher() {
-    BookListDao bookListDao = new BookListDaoImpl();
-    return bookListDao.sortBooksByPublisher();
-  }
+  List<Book> findByTitle(String searchValue);
 
-  public List<Book> sortByYear() {
-    BookListDao bookListDao = new BookListDaoImpl();
-    return bookListDao.sortBooksByYear();
-  }
+  List<Book> findByAuthors(String[] searchValue);
 
-  public List<Book> sortByNumberOfPages() {
-    BookListDao bookListDao = new BookListDaoImpl();
-    return bookListDao.sortBooksByNumberOfPages();
-  }
+  List<Book> findByPublisher(String searchValue);
 
-  public List<Book> findByTitle(String searchValue) {
-    BookListDao bookListDao = new BookListDaoImpl();
-    return bookListDao.findBooksByTitle(searchValue);
-  }
+  List<Book> findByYear(String searchValue) throws BookServiceException;
 
-  public List<Book> findByAuthors(String[] searchValue) {
-    BookListDao bookListDao = new BookListDaoImpl();
-    return bookListDao.findBooksByAuthors(searchValue);
-  }
-
-  public List<Book> findByPublisher(String searchValue) {
-    BookListDao bookListDao = new BookListDaoImpl();
-    return bookListDao.findBooksByPublisher(searchValue);
-  }
-
-  public List<Book> findByYear(String searchValue) throws LibraryServiceException {
-    BookListDao bookListDao = new BookListDaoImpl();
-    return bookListDao.findBooksByYear(verifyYear(searchValue));
-  }
-
-  public List<Book> findByNumberOfPages(String searchValue) throws LibraryServiceException {
-    BookListDao bookListDao = new BookListDaoImpl();
-    return bookListDao.findBooksByNumberOfPages(verifyPages(searchValue));
-  }
+  List<Book> findByNumberOfPages(String searchValue) throws BookServiceException;
 }

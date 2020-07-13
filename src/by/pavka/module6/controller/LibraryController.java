@@ -1,10 +1,7 @@
 package by.pavka.module6.controller;
 
 import by.pavka.module6.controller.command.LibraryCommand;
-import by.pavka.module6.controller.command.factory.LibraryCommandFactory;
-import by.pavka.module6.controller.exception.LibraryControllerException;
 import by.pavka.module6.controller.request.LibraryRequest;
-import by.pavka.module6.controller.request.LibraryRequestCreator;
 import by.pavka.module6.controller.response.LibraryResponse;
 import by.pavka.module6.model.entity.book.Book;
 
@@ -24,15 +21,15 @@ public class LibraryController {
 
   public LibraryResponse doRequest(String input) {
     LibraryRequestCreator requestCreator = new LibraryRequestCreator();
-    LibraryCommandFactory client = new LibraryCommandFactory();
     LibraryResponse response = new LibraryResponse();
     response.setResult(LibraryResponse.RESULT_NOT_OK);
     response.setOperation(LibraryResponse.OPERATION_NOT_DEFINED);
     List<Book> books = null;
     try {
       LibraryRequest request = requestCreator.interpretInput(input);
-      LibraryCommand libraryCommand = client.formLibraryCommand(request, response);
-      books = libraryCommand.execute();
+      LibraryCommand libraryCommand = request.getCommandType().getCommand();
+      books = libraryCommand.execute(request);
+      response.setOperation(request.getCommandType().toString());
       response.setResult(LibraryResponse.RESULT_OK);
       response.setBooks(books);
     } catch (LibraryControllerException e) {

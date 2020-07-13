@@ -3,10 +3,10 @@ package by.pavka.module6.generator;
 import by.pavka.module6.model.entity.book.Book;
 import by.pavka.module6.model.entity.library.Library;
 import by.pavka.module6.model.entity.library.impl.LibraryImpl;
-import by.pavka.module6.model.exception.BookNullTitleException;
+import by.pavka.module6.model.LibraryModelException;
 
 public class LibraryFiller {
-  public static void fillLibrary() throws BookNullTitleException {
+  public static void fillLibrary() throws LibraryModelException {
     Library library = LibraryImpl.getInstance();
     Book book1 = new Book("Drei Kameraden", new String[] {"E.M.Remarque"}, "Gyldendal", 1936, 352);
     Book book2 =

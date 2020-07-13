@@ -3,7 +3,7 @@ package by.pavka.module6;
 import by.pavka.module6.controller.LibraryController;
 import by.pavka.module6.controller.response.LibraryResponse;
 import by.pavka.module6.generator.LibraryFiller;
-import by.pavka.module6.model.exception.BookNullTitleException;
+import by.pavka.module6.model.LibraryModelException;
 
 public class Main {
 
@@ -12,37 +12,37 @@ public class Main {
   public static void main(String[] args) {
 
     String request = "A#Незнайка на Луне:Н.Носов:Детская Литература:1965:180";
-    recieveAndDisplayResponse(request);
+    receiveAndDisplayResponse(request);
 
     try {
       LibraryFiller.fillLibrary();
-    } catch (BookNullTitleException e) {
+    } catch (LibraryModelException e) {
       e.printStackTrace();
     }
 
     request = "L";
-    recieveAndDisplayResponse(request);
+    receiveAndDisplayResponse(request);
 
     request = "F#Y#1936";
-    recieveAndDisplayResponse(request);
+    receiveAndDisplayResponse(request);
 
     request = "S#N";
-    recieveAndDisplayResponse(request);
+    receiveAndDisplayResponse(request);
 
     request = "R#Незнайка в Солнечном Городе:Н.Носов:Детская Литература:1965:180";
-    recieveAndDisplayResponse(request);
+    receiveAndDisplayResponse(request);
 
     request = "I#Незнайка на Луне:Н.Носов:Детская Литература:1965:180";
-    recieveAndDisplayResponse(request);
+    receiveAndDisplayResponse(request);
 
     request = "R#Незнайка на Луне:Н.Носов:Детская Литература:1965:180";
-    recieveAndDisplayResponse(request);
+    receiveAndDisplayResponse(request);
 
     request = "L";
-    recieveAndDisplayResponse(request);
+    receiveAndDisplayResponse(request);
   }
 
-  private static void recieveAndDisplayResponse(String request) {
+  private static void receiveAndDisplayResponse(String request) {
     LibraryResponse response = libraryController.doRequest(request);
     System.out.println(
         response.getResult() + " " + response.getOperation() + " " + response.getExceptionInfo());

@@ -1,6 +1,6 @@
 package by.pavka.module6.model.entity.book;
 
-import by.pavka.module6.model.exception.BookNullTitleException;
+import by.pavka.module6.model.LibraryModelException;
 
 import java.util.Arrays;
 
@@ -13,9 +13,9 @@ public class Book {
 
   public Book(
       String title, String[] authors, String publisher, int yearOfPublication, int numberOfPages)
-      throws BookNullTitleException {
+      throws LibraryModelException {
     if (title == null) {
-      throw new BookNullTitleException("Book must have a title");
+      throw new LibraryModelException("Book must have a title");
     }
     this.title = title;
     if (authors != null) {

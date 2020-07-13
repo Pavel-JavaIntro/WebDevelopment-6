@@ -1,10 +1,10 @@
 package by.pavka.module6.model.dao.impl;
 
+import by.pavka.module6.model.LibraryModelException;
 import by.pavka.module6.model.dao.BookListDao;
 import by.pavka.module6.model.entity.book.Book;
 import by.pavka.module6.model.entity.library.Library;
 import by.pavka.module6.model.entity.library.impl.LibraryImpl;
-import by.pavka.module6.model.exception.LibraryCrudException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,11 +13,11 @@ import java.util.List;
 public class BookListDaoImpl implements BookListDao {
 
   @Override
-  public void addBook(Book book) throws LibraryCrudException {
+  public void addBook(Book book) throws LibraryModelException {
     Library library = LibraryImpl.getInstance();
     boolean success = library.insert(book);
     if (!success) {
-      throw new LibraryCrudException("Book not added");
+      throw new LibraryModelException("Book not added");
     }
   }
 
@@ -28,11 +28,11 @@ public class BookListDaoImpl implements BookListDao {
   }
 
   @Override
-  public void removeBook(Book book) throws LibraryCrudException {
+  public void removeBook(Book book) throws LibraryModelException {
     Library library = LibraryImpl.getInstance();
     boolean success = library.delete(book);
     if (!success) {
-      throw new LibraryCrudException("Book not deleted");
+      throw new LibraryModelException("Book not deleted");
     }
   }
 

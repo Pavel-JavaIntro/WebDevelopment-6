@@ -45,4 +45,9 @@ public class LibraryImpl implements Library {
   public List<Book> listAll() {
     return Collections.unmodifiableList(books);
   }
+
+  // This method is for test purposes
+  public void clean() {
+    books = new ArrayList<>();
+  }
 }

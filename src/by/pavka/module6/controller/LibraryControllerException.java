@@ -1,4 +1,4 @@
-package by.pavka.module6.controller.exception;
+package by.pavka.module6.controller;
 
 public class LibraryControllerException extends Exception {
   public LibraryControllerException() {}

@@ -1,26 +1,22 @@
 package by.pavka.module6.controller.command.impl;
 
+import by.pavka.module6.controller.LibraryControllerException;
 import by.pavka.module6.controller.command.LibraryCommand;
-import by.pavka.module6.controller.exception.LibraryControllerException;
+import by.pavka.module6.controller.request.LibraryRequest;
 import by.pavka.module6.controller.type.BookTagType;
 import by.pavka.module6.model.entity.book.Book;
-import by.pavka.module6.model.exception.LibraryServiceException;
 import by.pavka.module6.model.service.BookService;
+import by.pavka.module6.model.service.BookServiceException;
+import by.pavka.module6.model.service.impl.BookServiceImpl;
 
 import java.util.List;
 
 public class FindCommand implements LibraryCommand {
-  private final BookTagType tag;
-  private final String searchValue;
-
-  public FindCommand(BookTagType tag, String searchValue) {
-    this.tag = tag;
-    this.searchValue = searchValue;
-  }
-
   @Override
-  public List<Book> execute() throws LibraryControllerException {
-    BookService bookService = new BookService();
+  public List<Book> execute(LibraryRequest request) throws LibraryControllerException {
+    BookTagType tag = request.getTagType();
+    String searchValue = request.getData();
+    BookService bookService = new BookServiceImpl();
     switch (tag) {
       case TITLE:
         return bookService.findByTitle(searchValue);
@@ -31,13 +27,13 @@ public class FindCommand implements LibraryCommand {
       case YEAR:
         try {
           return bookService.findByYear(searchValue);
-        } catch (LibraryServiceException e) {
+        } catch (BookServiceException e) {
           throw new LibraryControllerException("Caught service exception", e);
         }
       case PAGES:
         try {
           return bookService.findByNumberOfPages(searchValue);
-        } catch (LibraryServiceException e) {
+        } catch (BookServiceException e) {
           throw new LibraryControllerException("Caught service exception", e);
         }
       default:

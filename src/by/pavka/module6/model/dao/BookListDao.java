@@ -1,16 +1,16 @@
 package by.pavka.module6.model.dao;
 
+import by.pavka.module6.model.LibraryModelException;
 import by.pavka.module6.model.entity.book.Book;
-import by.pavka.module6.model.exception.LibraryCrudException;
 
 import java.util.List;
 
 public interface BookListDao {
-  void addBook(Book book) throws LibraryCrudException;
+  void addBook(Book book) throws LibraryModelException;
 
   boolean includeBook(Book book);
 
-  void removeBook(Book book) throws LibraryCrudException;
+  void removeBook(Book book) throws LibraryModelException;
 
   boolean excludeBook(Book book);
 

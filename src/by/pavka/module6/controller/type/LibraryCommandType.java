@@ -1,11 +1,24 @@
 package by.pavka.module6.controller.type;
 
+import by.pavka.module6.controller.command.LibraryCommand;
+import by.pavka.module6.controller.command.impl.*;
+
 public enum LibraryCommandType {
-  ADD,
-  INCLUDE,
-  REMOVE,
-  EXCLUDE,
-  LIST_ALL,
-  SORT,
-  FIND
+  ADD(new AddCommand()),
+  INCLUDE(new IncludeCommand()),
+  REMOVE(new RemoveCommand()),
+  EXCLUDE(new ExcludeCommand()),
+  LIST_ALL(new ListAllCommand()),
+  SORT(new SortCommand()),
+  FIND(new FindCommand());
+
+  private LibraryCommand command;
+
+  LibraryCommandType(LibraryCommand command) {
+    this.command = command;
+  }
+
+  public LibraryCommand getCommand() {
+    return command;
+  }
 }
