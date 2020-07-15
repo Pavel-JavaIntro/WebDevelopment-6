@@ -17,15 +17,10 @@ public class ExcludeCommand implements LibraryCommand {
     if (bookData.length != 5) {
       throw new LibraryControllerException("Invalid request format");
     }
-    String title = bookData[0];
-    String[] authors = bookData[1].split(AUTHOR_DELIMITER);
-    String publisher = bookData[2];
-    String yearString = bookData[3];
-    String pageString = bookData[4];
     BookService bookService = new BookServiceImpl();
-    List<Book> books = null;
+    List<Book> books;
     try {
-      books = bookService.excludeBook(title, authors, publisher, yearString, pageString);
+      books = bookService.excludeBook(bookData);
     } catch (BookServiceException e) {
       throw new LibraryControllerException("Caught service exception", e);
     }

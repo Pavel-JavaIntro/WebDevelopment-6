@@ -24,7 +24,7 @@ public class LibraryController {
     LibraryResponse response = new LibraryResponse();
     response.setResult(LibraryResponse.RESULT_NOT_OK);
     response.setOperation(LibraryResponse.OPERATION_NOT_DEFINED);
-    List<Book> books = null;
+    List<Book> books;
     try {
       LibraryRequest request = requestCreator.interpretInput(input);
       LibraryCommand libraryCommand = request.getCommandType().getCommand();

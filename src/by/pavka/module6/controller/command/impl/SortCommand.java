@@ -27,7 +27,7 @@ public class SortCommand implements LibraryCommand {
       case PAGES:
         return bookService.sortByNumberOfPages();
       default:
-        throw new LibraryControllerException();
+        throw new LibraryControllerException("Tag not supported yet");
     }
   }
 }

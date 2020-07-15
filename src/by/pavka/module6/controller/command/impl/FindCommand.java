@@ -37,7 +37,7 @@ public class FindCommand implements LibraryCommand {
           throw new LibraryControllerException("Caught service exception", e);
         }
       default:
-        throw new LibraryControllerException("Command not supported yet");
+        throw new LibraryControllerException("Tag not supported yet");
     }
   }
 }

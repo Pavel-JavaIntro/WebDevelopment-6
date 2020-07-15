@@ -14,6 +14,8 @@ public interface BookListDao {
 
   boolean excludeBook(Book book);
 
+  boolean containsBook(Book book);
+
   List<Book> listAllBooks();
 
   List<Book> sortBooksByTitle();

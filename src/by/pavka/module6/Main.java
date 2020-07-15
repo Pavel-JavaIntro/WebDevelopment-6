@@ -5,9 +5,11 @@ import by.pavka.module6.controller.response.LibraryResponse;
 import by.pavka.module6.generator.LibraryFiller;
 import by.pavka.module6.model.LibraryModelException;
 
+import java.util.Arrays;
+
 public class Main {
 
-  private static LibraryController libraryController = LibraryController.getInstance();
+  private static final LibraryController LIBRARY_CONTROLLER = LibraryController.getInstance();
 
   public static void main(String[] args) {
 
@@ -43,9 +45,13 @@ public class Main {
   }
 
   private static void receiveAndDisplayResponse(String request) {
-    LibraryResponse response = libraryController.doRequest(request);
+    LibraryResponse response = LIBRARY_CONTROLLER.doRequest(request);
     System.out.println(
-        response.getResult() + " " + response.getOperation() + " " + response.getExceptionInfo());
+        response.getResult()
+            + " "
+            + response.getOperation()
+            + " "
+            + Arrays.toString(response.getExceptionInfo()));
     System.out.println(response.getBooks());
   }
 }

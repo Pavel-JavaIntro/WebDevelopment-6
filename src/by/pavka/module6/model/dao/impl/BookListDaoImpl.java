@@ -8,6 +8,7 @@ import by.pavka.module6.model.entity.library.impl.LibraryImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class BookListDaoImpl implements BookListDao {
@@ -43,6 +44,12 @@ public class BookListDaoImpl implements BookListDao {
   }
 
   @Override
+  public boolean containsBook(Book book) {
+    Library library = LibraryImpl.getInstance();
+    return library.contains(book);
+  }
+
+  @Override
   public List<Book> listAllBooks() {
     Library library = LibraryImpl.getInstance();
     return library.listAll();
@@ -52,7 +59,7 @@ public class BookListDaoImpl implements BookListDao {
   public List<Book> sortBooksByTitle() {
     Library bookStorage = LibraryImpl.getInstance();
     List<Book> library = new ArrayList<>(bookStorage.listAll());
-    library.sort((book1, book2) -> book1.getTitle().compareTo(book2.getTitle()));
+    library.sort(Comparator.comparing(Book::getTitle));
     return library;
   }
 
@@ -61,8 +68,7 @@ public class BookListDaoImpl implements BookListDao {
     Library bookStorage = LibraryImpl.getInstance();
     List<Book> library = new ArrayList<>(bookStorage.listAll());
     library.sort(
-        (book1, book2) ->
-            (String.join(" ", book1.getAuthors())).compareTo(String.join(" ", book2.getAuthors())));
+            Comparator.comparing(book -> (String.join(" ", book.getAuthors()))));
     return library;
   }
 
@@ -70,7 +76,7 @@ public class BookListDaoImpl implements BookListDao {
   public List<Book> sortBooksByPublisher() {
     Library bookStorage = LibraryImpl.getInstance();
     List<Book> library = new ArrayList<>(bookStorage.listAll());
-    library.sort((book1, book2) -> book1.getPublisher().compareTo(book2.getPublisher()));
+    library.sort(Comparator.comparing(Book::getPublisher));
     return library;
   }
 
@@ -78,7 +84,7 @@ public class BookListDaoImpl implements BookListDao {
   public List<Book> sortBooksByYear() {
     Library bookStorage = LibraryImpl.getInstance();
     List<Book> library = new ArrayList<>(bookStorage.listAll());
-    library.sort((book1, book2) -> (book1.getYearOfPublication() - book2.getYearOfPublication()));
+    library.sort(Comparator.comparingInt(Book::getYearOfPublication));
     return library;
   }
 
@@ -86,7 +92,7 @@ public class BookListDaoImpl implements BookListDao {
   public List<Book> sortBooksByNumberOfPages() {
     Library bookStorage = LibraryImpl.getInstance();
     List<Book> library = new ArrayList<>(bookStorage.listAll());
-    library.sort((book1, book2) -> (book1.getNumberOfPages() - book2.getNumberOfPages()));
+    library.sort(Comparator.comparingInt(Book::getNumberOfPages));
     return library;
   }
 

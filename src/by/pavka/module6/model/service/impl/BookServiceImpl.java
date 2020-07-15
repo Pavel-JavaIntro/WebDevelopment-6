@@ -13,10 +13,8 @@ import java.util.List;
 
 public class BookServiceImpl implements BookService {
   @Override
-  public List<Book> addBook(
-      String title, String[] authors, String publisher, String yearString, String pageString)
-      throws BookServiceException {
-    Book book = obtainBook(title, authors, publisher, yearString, pageString);
+  public List<Book> addBook(String[] bookData) throws BookServiceException {
+    Book book = constructBook(bookData);
     BookListDao bookListDao = new BookListDaoImpl();
     try {
       bookListDao.addBook(book);
@@ -29,10 +27,8 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  public List<Book> includeBook(
-      String title, String[] authors, String publisher, String yearString, String pageString)
-      throws BookServiceException {
-    Book book = obtainBook(title, authors, publisher, yearString, pageString);
+  public List<Book> includeBook(String[] bookData) throws BookServiceException {
+    Book book = constructBook(bookData);
     BookListDao bookListDao = new BookListDaoImpl();
     List<Book> books = new ArrayList<>();
     if (bookListDao.includeBook(book)) {
@@ -42,10 +38,8 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  public List<Book> removeBook(
-      String title, String[] authors, String publisher, String yearString, String pageString)
-      throws BookServiceException {
-    Book book = obtainBook(title, authors, publisher, yearString, pageString);
+  public List<Book> removeBook(String[] bookData) throws BookServiceException {
+    Book book = constructBook(bookData);
     BookListDao bookListDao = new BookListDaoImpl();
     try {
       bookListDao.removeBook(book);
@@ -58,10 +52,8 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  public List<Book> excludeBook(
-      String title, String[] authors, String publisher, String yearString, String pageString)
-      throws BookServiceException {
-    Book book = obtainBook(title, authors, publisher, yearString, pageString);
+  public List<Book> excludeBook(String[] bookData) throws BookServiceException {
+    Book book = constructBook(bookData);
     BookListDao bookListDao = new BookListDaoImpl();
     List<Book> books = new ArrayList<>();
     if (bookListDao.excludeBook(book)) {
@@ -70,12 +62,15 @@ public class BookServiceImpl implements BookService {
     return books;
   }
 
-  private Book obtainBook(
-      String title, String[] authors, String publisher, String yearString, String pageString)
-      throws BookServiceException {
+  private Book constructBook(String[] bookData) throws BookServiceException {
+    String title = bookData[0];
+    String[] authors = bookData[1].split(",");
+    String publisher = bookData[2];
+    String yearString = bookData[3];
+    String pageString = bookData[4];
     int yearOfPublication = verifyYear(yearString);
     int numberOfPages = verifyPages(pageString);
-    Book book = null;
+    Book book;
     try {
       book = new Book(title, authors, publisher, yearOfPublication, numberOfPages);
     } catch (LibraryModelException e) {

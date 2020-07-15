@@ -5,9 +5,10 @@ import by.pavka.module6.controller.type.BookTagType;
 import by.pavka.module6.controller.type.LibraryCommandType;
 
 /*
- * This is a mock class converting an input string into a LibraryRequest object
+ * This is a class imitating customer input and converting the input string into a LibraryRequest
+ * object
  */
-public class LibraryRequestCreator {
+class LibraryRequestCreator {
   private static final String COMMAND_TAG_DELIMITER = "#";
   private static final String LIST_ALL = "L";
   private static final String COMMAND_TEMPLATE = "[AaIiRrEeFfSs]#.*";
@@ -18,7 +19,7 @@ public class LibraryRequestCreator {
    * year of publication: number of pages> to add or remove a book or of type
    * #<Command prefix>#<SearchTag>#<search value> to sort or find books or <L> to list all books
    */
-  public LibraryRequest interpretInput(String input) throws LibraryControllerException {
+  LibraryRequest interpretInput(String input) throws LibraryControllerException {
     String exceptionMessage = "Missing or wrong input";
     if (LIST_ALL.equalsIgnoreCase(input)) {
       return new LibraryRequest(LibraryCommandType.LIST_ALL, null, null);
@@ -28,7 +29,7 @@ public class LibraryRequestCreator {
     }
     String[] requestData = input.split(COMMAND_TAG_DELIMITER);
     String command = requestData[0].toUpperCase();
-    LibraryCommandType commandType = null;
+    LibraryCommandType commandType;
     BookTagType tagType = null;
     String data = null;
     switch (command) {
@@ -86,7 +87,7 @@ public class LibraryRequestCreator {
     if (!tagString.matches(TAG)) {
       throw new LibraryControllerException(exceptionMessage);
     }
-    BookTagType tagType = null;
+    BookTagType tagType;
     switch (tagString.toUpperCase()) {
       case "T":
         tagType = BookTagType.TITLE;

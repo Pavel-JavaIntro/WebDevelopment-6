@@ -5,21 +5,13 @@ import by.pavka.module6.model.entity.book.Book;
 import java.util.List;
 
 public interface BookService {
-  List<Book> addBook(
-      String title, String[] authors, String publisher, String yearString, String pageString)
-      throws BookServiceException;
+  List<Book> addBook(String[] bookData) throws BookServiceException;
 
-  List<Book> includeBook(
-      String title, String[] authors, String publisher, String yearString, String pageString)
-      throws BookServiceException;
+  List<Book> includeBook(String[] bookData) throws BookServiceException;
 
-  List<Book> removeBook(
-      String title, String[] authors, String publisher, String yearString, String pageString)
-      throws BookServiceException;
+  List<Book> removeBook(String[] bookData) throws BookServiceException;
 
-  List<Book> excludeBook(
-      String title, String[] authors, String publisher, String yearString, String pageString)
-      throws BookServiceException;
+  List<Book> excludeBook(String[] bookData) throws BookServiceException;
 
   List<Book> listAllBooks();
 
