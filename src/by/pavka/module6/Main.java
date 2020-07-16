@@ -42,6 +42,9 @@ public class Main {
 
     request = "L";
     receiveAndDisplayResponse(request);
+
+    request = "S#A";
+    receiveAndDisplayResponse(request);
   }
 
   private static void receiveAndDisplayResponse(String request) {
