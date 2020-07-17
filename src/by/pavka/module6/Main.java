@@ -7,6 +7,7 @@ import by.pavka.module6.model.LibraryModelException;
 
 import java.util.Arrays;
 
+// Another way of testing
 public class Main {
 
   private static final LibraryController LIBRARY_CONTROLLER = LibraryController.getInstance();
@@ -44,6 +45,9 @@ public class Main {
     receiveAndDisplayResponse(request);
 
     request = "S#A";
+    receiveAndDisplayResponse(request);
+
+    request = "R#Sonnets:А.Пушкин:Зарубежная Литература:1987:102";
     receiveAndDisplayResponse(request);
   }
 
