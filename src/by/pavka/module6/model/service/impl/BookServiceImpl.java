@@ -64,7 +64,7 @@ public class BookServiceImpl implements BookService {
 
   private Book constructBook(String[] bookData) throws BookServiceException {
     String title = bookData[0];
-    String[] authors = bookData[1].split(",");
+    String[] authors = bookData[1].split(",\\s?");
     String publisher = bookData[2];
     String yearString = bookData[3];
     String pageString = bookData[4];
